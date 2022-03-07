@@ -7,6 +7,7 @@ class Program{
     Genero g2 = new Genero(2, "Drama");
     Livro l1 = new Livro("livro 1", 1);
     Livro l2 = new Livro("livro 2", 2);
+    Console.WriteLine(g1);
     Console.WriteLine(g2);
     Console.WriteLine(l1);
     Console.WriteLine(l2);

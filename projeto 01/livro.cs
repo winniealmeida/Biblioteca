@@ -7,12 +7,18 @@ class Livro {
     this.nome = nome;
     this.idGenero = idGenero;
   }
-  public void SetNome(string nome, int idGenero) {
+  public void SetNome(string nome) {
     this.nome = nome;
+    this.idGenero = idGenero;
+  }
+  public void SetIdGenero(int idGenero) {
     this.idGenero = idGenero;
   }
   public string GetNome() {
     return nome;
+  }
+  public int GetIdGenero() {
+    return idGenero;
   }
   public override string ToString() {
     return $"{nome}";
