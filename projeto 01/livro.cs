@@ -9,7 +9,6 @@ class Livro {
   }
   public void SetNome(string nome) {
     this.nome = nome;
-    this.idGenero = idGenero;
   }
   public void SetIdGenero(int idGenero) {
     this.idGenero = idGenero;
