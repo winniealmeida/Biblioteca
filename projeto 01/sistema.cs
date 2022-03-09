@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 
 class Sistema{
   private static Genero[] generos = new Genero[10];
   private static int nGenero;
+  private static List<Livro> livros = new List<Livro>();
   public static void GeneroInserir(Genero obj) {
     if (nGenero == generos.Length);
       Array.Resize(ref generos, 2 * generos.Length);
@@ -38,5 +40,31 @@ class Sistema{
       if (obj.GetId() == id) return i;
     } 
     return -1;
+  }
+  
+  public static void LivroInserir(Livro obj) {
+    livros.Add(obj);
+  }
+  public static List<Livro> LivroListar() {
+    return livros;
+  }
+  public static Livro LivroLocalizar(int id) {
+    foreach(Livro obj in livros)
+      if (obj.GetId() == id) return obj;
+    return null;
+  }
+  public static void LivroAtt(Livro obj) {
+    Livro aux = LivroLocalizar(obj.GetId());
+    if (aux != null){
+      aux.SetNome(obj.GetNome());
+      aux.SetId(obj.GetId());
+      aux.SetIdGenero(obj.GetIdGenero());
+    }
+  }
+  public static void LivroExcluir(Livro obj) {
+    Livro aux = LivroLocalizar(obj.GetId());
+    if (aux != null) {
+      livros.Remove(aux);
+    }
   }
 }
