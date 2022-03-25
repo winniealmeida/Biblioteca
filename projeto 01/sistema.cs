@@ -5,6 +5,9 @@ class Sistema{
   private static Genero[] generos = new Genero[10];
   private static int nGenero;
   private static List<Livro> livros = new List<Livro>();
+  private static List<Cliente> clientes = new List<Cliente>();
+  private static List<Servico> servicos = new List<Servico>();
+  private static List<Aluguel> agenda = new List<Aluguel>();
   public static void GeneroInserir(Genero obj) {
     if (nGenero == generos.Length);
       Array.Resize(ref generos, 2 * generos.Length);
@@ -63,8 +66,114 @@ class Sistema{
   }
   public static void LivroExcluir(Livro obj) {
     Livro aux = LivroLocalizar(obj.GetId());
-    if (aux != null) {
-      livros.Remove(aux);
+    if (aux != null) livros.Remove(aux);
+  }
+
+  public static void ClienteInserir(Cliente obj) {
+    int id = 0;
+    foreach(Cliente aux in clientes)
+      if (aux.Id > id) id = aux.Id;
+    obj.Id = id + 1;
+    clientes.Add(obj);
+  }
+  public static List<Cliente> ClienteListar() {
+    return clientes;
+  }
+  public static Cliente ClienteLocalizar(int id) {
+    foreach(Cliente obj in clientes)
+      if (obj.Id == id) return obj;
+    return null;
+  }
+  public static void ClienteAtt(Cliente obj) {
+    Cliente aux = ClienteLocalizar(obj.Id);
+    if (aux != null){
+      aux.Nome = obj.Nome;
+      aux.Telefone = obj.Telefone;
     }
+  }
+  public static void ClienteExcluir(Cliente obj) {
+    Cliente aux = ClienteLocalizar(obj.Id);
+    if (aux != null) clientes.Remove(aux);
+  }
+  
+  public static void ServicoInserir(Servico obj) {
+    int id = 0;
+    foreach(Servico aux in servicos)
+      if (aux.Id > id) id = aux.Id;
+    obj.Id = id + 1;
+    servicos.Add(obj);
+  }
+  public static List<Servico> ServicoListar() {
+    return servicos;
+  }
+  public static Servico ServicoLocalizar(int id) {
+    foreach(Servico obj in servicos)
+      if (obj.Id == id) return obj;
+    return null;
+  }
+  public static void ServicoAtt(Servico obj) {
+    Servico aux = ServicoLocalizar(obj.Id);
+    if (aux != null){
+      aux.Desc = obj.Desc;
+      aux.Preco = obj.Preco;
+    }
+  }
+  public static void ServicoExcluir(Servico obj) {
+    Servico aux = ServicoLocalizar(obj.Id);
+    if (aux != null) servicos.Remove(aux);
+  }
+
+  public static void AluguelInserir(Aluguel obj) {
+    int id = 0;
+    foreach(Aluguel aux in agenda)
+      if (aux.Id > id) id = aux.Id;
+    obj.Id = id + 1;
+    agenda.Add(obj);
+  }
+  public static List<Aluguel> AluguelListar() {
+    return agenda;
+  }
+  public static Aluguel AluguelLocalizar(int id) {
+    foreach(Aluguel obj in agenda)
+      if (obj.Id == id) return obj;
+    return null;
+  }
+  
+  public static void AluguelAtt(Aluguel obj) {
+    Aluguel aux = AluguelLocalizar(obj.Id);
+    if (aux != null){
+      aux.Data = obj.Data;
+      aux.IdLivro = obj.IdLivro;
+      aux.NomeLivro = obj.NomeLivro;
+      aux.IdServico = obj.IdServico;
+    }
+  }
+  public static List<Aluguel> AluguelLivroListar(Livro livro) {
+    List<Aluguel> r = new List<Aluguel>();
+    foreach(Aluguel obj in agenda)
+      if (obj.IdLivro() == livro.Id)
+        r.Add(obj);
+    return r;
+  }
+  public static List<Aluguel> AluguelDataListar(DateTime data) {
+    List<Aluguel> r = new List<Aluguel>();
+    foreach(Aluguel obj in agenda)
+      if (obj.IdLivro() == 0 && obj.Data == data)
+        r.Add(obj);
+    return r;
+  }
+  public static void AluguelAbrirAgenda(DateTime data) {
+      int[] alugueispordia = { 8, 9, 10, 11, 13, 14, 15, 16, 17, 18 };
+      DateTime hoje = data.DateTime;
+      foreach(int a in alugueispordia){
+        TimeSpan alugueis = new TimeSpan(0, a, 0, 0);
+        Aluguel obj = new Aluguel { Data = hoje + alugueis };
+        AluguelInserir(obj);
+      }
+    }
+
+  public static void AluguelExcluir(Aluguel obj) {
+    Aluguel aux = AluguelLocalizar(obj.Id);
+    if (aux != null) agenda.Remove(aux);
   }
 }
