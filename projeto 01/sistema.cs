@@ -138,6 +138,11 @@ class Sistema{
       if (obj.Id == id) return obj;
     return null;
   }
+  public static Aluguel AluguelClienteListar(int idCliente) {
+    foreach(Aluguel obj in agenda)
+      if (obj.IdCliente == idCliente) return obj;
+    return null;
+  }
   
   public static void AluguelAtt(Aluguel obj) {
     Aluguel aux = AluguelLocalizar(obj.Id);
@@ -149,29 +154,52 @@ class Sistema{
     }
   }
   public static List<Aluguel> AluguelLivroListar(Livro livro) {
-    List<Aluguel> r = new List<Aluguel>();
+    List<Aluguel> aluguelporlivro = new List<Aluguel>();
     foreach(Aluguel obj in agenda)
-      if (obj.IdLivro() == livro.Id)
-        r.Add(obj);
-    return r;
+      if (obj.IdLivro == livro.id)
+        aluguelporlivro.Add(obj);
+    return aluguelporlivro;
   }
-  public static List<Aluguel> AluguelDataListar(DateTime data) {
-    List<Aluguel> r = new List<Aluguel>();
+  
+  /*public static List<Aluguel> AluguelDisponivelListar(idlivro, datadigitada) {
+    List<Aluguel> aluguellivrodisponivel = new List<Aluguel>();
     foreach(Aluguel obj in agenda)
-      if (obj.IdLivro() == 0 && obj.Data == data)
-        r.Add(obj);
-    return r;
-  }
-  public static void AluguelAbrirAgenda(DateTime data) {
-      int[] alugueispordia = { 8, 9, 10, 11, 13, 14, 15, 16, 17, 18 };
-      DateTime hoje = data.DateTime;
-      foreach(int a in alugueispordia){
-        TimeSpan alugueis = new TimeSpan(0, a, 0, 0);
-        Aluguel obj = new Aluguel { Data = hoje + alugueis };
-        AluguelInserir(obj);
-      }
-    }
+      /*livro já está alugado //
+      if (obj.idLivro == idlivro && obj.Data == datadigitada)
+        return null;
+      if (obj.idLivro == idlivro && obj.Data != datadigitada)
+        aluguellivrodisponivel.Add(obj);
+        return aluguellivrodisponivel;
+  }*/
 
+    /*Lista de livros alugados no livro */
+  public static List<Aluguel> AluguelDisponivelListar(Livro livro) {
+      List<Aluguel> alugueldatadisponivel = new List<Aluguel>();
+    foreach(Aluguel obj in agenda)
+      if (obj.idLivro == livro.id) /* tirei a comparação do id obj.IdLivro == 0 && pq somente pela data já sabemos se o livro está alugado ou não*/
+        alugueldatadisponivel.Add(obj);
+    return alugueldatadisponivel;
+  }
+
+  
+  /*Lista de livros alugados na data digitada */
+  public static List<Aluguel> AluguelDisponivelListar(DateTime datadigitada) {
+    List<Aluguel> alugueldatadisponivel = new List<Aluguel>();
+    foreach(Aluguel obj in agenda)
+      if (obj.Data == datadigitada) /* retirei a comparação do ID obj.IdLivro == 0 && pois somente pela data já saberemos se o livro está alugado ou não*/
+        alugueldatadisponivel.Add(obj);
+    return alugueldatadisponivel;
+  }
+  
+  //public static void AluguelAbrirAgenda(DateTime datadigitada) {
+      //int[] alugueispordia = { 8, 9, 10, 11, 13, 14, 15, 16, 17, 18 };
+      //DateTime hoje = datadigitada;
+      //foreach(int a in alugueispordia){
+        //TimeSpan alugueis = new TimeSpan(0, a, 0, 0);
+        //Aluguel obj = new Aluguel { Data = hoje + alugueis };
+        //AluguelInserir(obj);
+      //}
+    //}
   public static void AluguelExcluir(Aluguel obj) {
     Aluguel aux = AluguelLocalizar(obj.Id);
     if (aux != null) agenda.Remove(aux);

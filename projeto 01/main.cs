@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 
@@ -38,8 +39,7 @@ class Program {
             case 14: ServicoListar(); break;
             case 15: ServicoAtt(); break;
             case 16: ServicoExcluir(); break;
-            case 17: AluguelAbrirAgenda(); break;
-            case 18: AluguelVerAgenda(); break;
+            case 17: AluguelVerAgenda(); break;
             case 99: perfil = 0; break;
           }
         }
@@ -53,9 +53,8 @@ class Program {
         if (perfil == 2 && clienteLogin != null) {
           op = MenuClienteLogout();
           switch(op) {
-            case 1 : ClienteVerLivrosDisp(); break;
-            case 2 : ClienteAlugar(); break;
-            case 3 : ClienteVerAlugueis(); break;
+            case 1 : ClienteAlugar(); break;
+            case 2 : ClienteVerAlugueis(); break;
             case 99: ClienteLogout(); break;
           }
         }
@@ -71,16 +70,51 @@ class Program {
     Console.WriteLine("-------- Login --------");
     ClienteListar();
     Console.Write("Diga o seu código de cliente para logar: ");
-    int id = int.Parse(Console.ReadLine());
-    clienteLogin = Sistema.ClienteListar(id);
+    int id_digitado = int.Parse(Console.ReadLine());
+    List<Cliente> listaclientes = Sistema.ClienteListar();
+    //andar na lista e achar o código ID
+    // quando eu achar o ID setar o objeto para a variavel global
+    //clienteLogin = null;
+
+    foreach (Cliente acliente in listaclientes )
+      if (acliente.Id == id_digitado)
+        clienteLogin = acliente;
+    
   }
   public static void ClienteLogout() { 
     Console.WriteLine("-------- Logout --------");
     clienteLogin = null;
   }
-  public static void ClienteVerLivrosDisp() {}
-  public static void ClienteAlugar() { }
-  public static void ClienteVerAlugueis() { }
+  public static void ClienteAlugar() {
+    Console.WriteLine("-------- Alugar um livro --------");
+    Sistema.LivroListar();
+    Console.Write("Informe o Id do livro: ");
+    int idLivro = int.Parse(Console.ReadLine());
+    Sistema.AluguelDisponivelListar(idLivro);
+    Console.Write("Informe a data desejada <enter para hoje>: ");
+    DateTime data = Console.ReadLine();
+    /* procurar se o livro está disponível na data desejada para aluguel */
+    //string l = new obj.IdLivro;
+    if (Sistema.AluguelDisponivelListar(IdLivro, Data) != null)
+      DateTime.Data = obj.Data;
+      idLivro = obj.IdLivro;
+      Aluguel obj = new Aluguel();
+      /*alugar o livro*/
+      agenda.Add(obj);
+      //Sistema.AluguelInserir(obj);
+    if (Sistema.AluguelDisponivelListar(idLivro, d) == null) 
+      Console.Write("Esse livro já está alugado nesse dia. Para tentar um novo aluguel, digite");
+    }
+    
+  public static void ClienteVerAlugueis() {
+    Console.WriteLine();
+    Console.WriteLine("----------------------------------------");
+    AluguelClienteListar(idCliente);
+    Console.Write("Diga o seu código de cliente para logar: ");
+    int id_digitado = int.Parse(Console.ReadLine());
+    foreach (Aluguel obj in agenda)
+      if (Aluguel.IdCliente == id_digitado) return obj;
+  }
   
   
   public static int MenuUsuario() {
@@ -119,8 +153,7 @@ class Program {
     Console.WriteLine("15 - Atualizar um serviço");
     Console.WriteLine("16 - Excluir um serviço");
     Console.WriteLine("--------- Agenda de aluguéis --------");
-    Console.WriteLine("17 - Abrir agenda");
-    Console.WriteLine("18 - Ver agenda");
+    Console.WriteLine("17 - Ver agenda");
     Console.WriteLine("99 - Voltar ao menu anterior");
     Console.WriteLine("00 - Finalizar o sistema");
     Console.Write("Opção: ");
@@ -146,9 +179,8 @@ class Program {
     Console.WriteLine();
     Console.WriteLine("----------------------------------------");
     Console.WriteLine("Olá, " + clienteLogin.Nome);
-    Console.WriteLine("01 - Ver livros disponíveis");
-    Console.WriteLine("02 - Alugar um livro");
-    Console.WriteLine("03 - Ver meus aluguéis");
+    Console.WriteLine("01 - Alugar um livro");
+    Console.WriteLine("02 - Ver meus aluguéis anteriores");
     Console.WriteLine("99 -  Sair");
     Console.WriteLine("00 - Finalizar o sistema");
     Console.WriteLine("----------------------------------------");
@@ -323,22 +355,30 @@ class Program {
     Console.WriteLine("----------------------------------------");
   }
 
-  public static void AluguelAbrirAgenda() {
-    Console.WriteLine("---- Abrir agenda ----");
-    DateTime data = DateTime.Today;
-    Console.Write("Informe a data desejada <enter para hoje>: ");
-    string s = Console.ReadLine();
-    if (s != "") data = DateTime.Parse(s);
-    Sistema.AluguelAbrirAgenda(data);
-    Console.WriteLine("---- Operação realizada com sucesso ----");
-    Console.WriteLine("----------------------------------------");
-  }
+  //public static void AluguelAbrirAgenda() {
+    //Console.WriteLine("---- Abrir agenda ----");
+    //DateTime data = DateTime.Today;
+    //Console.Write("Informe a data desejada <enter para hoje>: ");
+    //string s = Console.ReadLine();
+    //if (s != "") data = DateTime.Parse(s);
+    //Sistema.AluguelAbrirAgenda(data);
+    //Console.WriteLine("---- Operação realizada com sucesso ----");
+    //Console.WriteLine("----------------------------------------");
+  //}
   public static void AluguelVerAgenda() {
     Console.WriteLine("---- Ver agenda ----");
     foreach(Aluguel obj in Sistema.AluguelListar()) {
-      Cliente c = Sistema.ClienteListar(obj.IdCliente);
+      //List<Cliente> c = Sistema.ClienteListar();
+      Cliente c = Sistema.ClienteLocalizar(obj.IdCliente);
+      //List<Livro> l = Sistema.LivroListar();
+      Livro l = Sistema.LivroLocalizar(obj.IdLivro);
+      //List<Servico> s = Sistema.ServicoListar();
+      Servico s = Sistema.ServicoLocalizar(obj.IdServico);
+      if (c != null)
+        Console.WriteLine(obj + " - " + c.Nome + " - " + l.GetNome() + " - " + s.Desc);
+      else
+        Console.WriteLine(obj);
     }
-      Console.WriteLine(obj);
     Console.WriteLine("----------------------------------------");
   }
 }

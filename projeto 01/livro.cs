@@ -2,7 +2,7 @@ using System;
 
 class Livro {
   private string nome;
-  private int id;
+  public int id;
   private int idGenero;
   public Livro(int id) {
     this.id = id;

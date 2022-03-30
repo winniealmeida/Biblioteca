@@ -10,8 +10,7 @@ class Aluguel {
   public int IdServico { get; set; }
   public double PrecoServico { get; set; }
   public override string ToString() {
-    string s = $"{Id}: {IdLivro}-{NomeLivro} para {IdCliente}-{NomeCliente} em {Data:dd/MM/yyyy HH:mm} - R${PrecoServico:0.00} {IdServico}";
-    if (IdLivro == 0)  s += " - Disponível";
+    string s = $"{Id}: {IdLivro}-{NomeLivro} para {IdCliente}-{NomeCliente} em {Data:dd/MM/yyyy} - R${PrecoServico:0.00} {IdServico}";
     return s;
   }
 }
