@@ -191,15 +191,6 @@ class Sistema{
     return alugueldatadisponivel;
   }
   
-  //public static void AluguelAbrirAgenda(DateTime datadigitada) {
-      //int[] alugueispordia = { 8, 9, 10, 11, 13, 14, 15, 16, 17, 18 };
-      //DateTime hoje = datadigitada;
-      //foreach(int a in alugueispordia){
-        //TimeSpan alugueis = new TimeSpan(0, a, 0, 0);
-        //Aluguel obj = new Aluguel { Data = hoje + alugueis };
-        //AluguelInserir(obj);
-      //}
-    //}
   public static void AluguelExcluir(Aluguel obj) {
     Aluguel aux = AluguelLocalizar(obj.Id);
     if (aux != null) agenda.Remove(aux);

@@ -355,16 +355,6 @@ class Program {
     Console.WriteLine("----------------------------------------");
   }
 
-  //public static void AluguelAbrirAgenda() {
-    //Console.WriteLine("---- Abrir agenda ----");
-    //DateTime data = DateTime.Today;
-    //Console.Write("Informe a data desejada <enter para hoje>: ");
-    //string s = Console.ReadLine();
-    //if (s != "") data = DateTime.Parse(s);
-    //Sistema.AluguelAbrirAgenda(data);
-    //Console.WriteLine("---- Operação realizada com sucesso ----");
-    //Console.WriteLine("----------------------------------------");
-  //}
   public static void AluguelVerAgenda() {
     Console.WriteLine("---- Ver agenda ----");
     foreach(Aluguel obj in Sistema.AluguelListar()) {
